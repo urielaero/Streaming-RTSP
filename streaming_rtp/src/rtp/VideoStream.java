@@ -10,14 +10,19 @@ public class VideoStream {
 
   FileInputStream fis; //video file
   int frame_nb; //current frame nb
+  File fTemp;
+  String absolute_path;
 
   //-----------------------------------
   //constructor
   //-----------------------------------
   public VideoStream(String filename) throws Exception{
-
+		//TEST PATH
+		fTemp = new File("");
+		absolute_path = fTemp.getAbsolutePath() + "/videos/";
+		System.out.println(absolute_path+filename);
     //init variables
-    fis = new FileInputStream(filename);
+    fis = new FileInputStream(absolute_path + filename);
     frame_nb = 0;
   }
 

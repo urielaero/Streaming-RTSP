@@ -183,6 +183,7 @@ public class RTPpacket{
       return(nb);
     else
       return(256+nb);
+      */
   }
 
 }
