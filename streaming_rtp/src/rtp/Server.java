@@ -5,7 +5,6 @@ package rtp;
  * @author candysansores
  */
 
-
 /* ------------------
    Server
    usage: java Server [RTSP listening port]
@@ -23,7 +22,7 @@ import javax.swing.Timer;
 public class Server extends JFrame implements ActionListener {
 
   //RTP variables:
-  //----------------
+
   DatagramSocket RTPsocket; //socket to be used to send and receive UDP packets
   DatagramPacket senddp; //UDP packet containing the video frames
 
@@ -139,7 +138,7 @@ public class Server extends JFrame implements ActionListener {
     while(!done)
       {
 	request_type = theServer.parse_RTSP_request(); //blocking
-	
+	System.out.println("RECIVIDO "+request_type);
 	if (request_type == SETUP)
 	  {
 	    done = true;

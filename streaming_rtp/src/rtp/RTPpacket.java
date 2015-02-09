@@ -57,17 +57,34 @@ public class RTPpacket{
     //fill the header array of byte with RTP header fields
 
     //header[0] = ...
-    // .....
- 
-
+    //byte v_p_e = (byte)(Version << 6); //todo lo demas es cero no aporta nada...    
+    header[0] = (byte)(Version << 6); //todo lo demas es cero no aporta nada...
     //fill the payload bitstream:
-    //--------------------------
+    header[1] = (byte) ( (Marker << 7) | (PayloadType) );
+
+
+
+    header[2] = (byte) ( SequenceNumber >> 8 ); // para quedarce con los bits mas significativos.
+    header[3] = (byte) ( SequenceNumber & 0xFF ); //para quedarce con los bits menos significativos
+    
+    //timestap 24 b
+    header[4] = (byte) ( TimeStamp >> 24 );
+    header[5] = (byte) ( TimeStamp >> 16 );
+    header[6] = (byte) ( TimeStamp >> 8 );
+    header[7] = (byte) ( TimeStamp >> 0xFF );
+
+    //SSRC
+    header[8] = (byte) ( Ssrc >> 24 );
+    header[9] = (byte) ( Ssrc >> 16 );
+    header[10] = (byte) ( Ssrc >> 8 );
+    header[11] = (byte) ( Ssrc & 0xFF );
+    
     payload_size = data_length;
     payload = new byte[data_length];
-
+    
     //fill payload array of byte from data (given in parameter of the constructor)
-    //......
-
+    payload = data;
+    
     // ! Do not forget to uncomment method printheader() below !
 
   }
@@ -90,8 +107,13 @@ public class RTPpacket{
       {
 	//get the header bitsream:
 	header = new byte[HEADER_SIZE];
-	for (int i=0; i < HEADER_SIZE; i++)
+	System.out.println("PACKET COM");
+	for (int i=0; i < HEADER_SIZE; i++){
+	  System.out.println(packet[i]);
 	  header[i] = packet[i];
+	
+	}
+	System.out.println("PACKET TERM.....");
 
 	//get the payload bitstream:
 	payload_size = packet_size - HEADER_SIZE;
@@ -110,9 +132,12 @@ public class RTPpacket{
   //getpayload: return the payload bistream of the RTPpacket and its size
   //--------------------------
   public int getpayload(byte[] data) {
-
-    for (int i=0; i < payload_size; i++)
+    System.out.println("payload[i]");
+    for (int i=0; i < payload_size; i++){
+      System.out.print(payload[i]);
       data[i] = payload[i];
+    }
+    System.out.println(" ");
 
     return(payload_size);
   }
@@ -172,7 +197,7 @@ public class RTPpacket{
   //--------------------------
   //print headers without the SSRC
   //--------------------------
-  public void printheader()
+  public void printheaderdos()
   {
     //TO DO: uncomment
     /*
@@ -184,6 +209,31 @@ public class RTPpacket{
     else
       return(256+nb);
       */
+  }
+  
+  public void printheader()
+	{
+		for (int i=0; i < (HEADER_SIZE); i++)
+		{
+			for (int j = 7; j>=0 ; j--)
+				if (((1<<j) & header[i] ) != 0)
+					System.out.print("1");
+				else
+					System.out.print("0");
+			System.out.print(" ");
+		}
+
+		System.out.println();
+
+	}
+
+  
+  private int unsigned_int(int num){
+	  if(num>=0)
+		  return num;
+	  return (256+num) ;
+	  
+	  
   }
 
 }
