@@ -231,7 +231,7 @@ public class RTPpacket{
   private int unsigned_int(int num){
 	  if(num>=0)
 		  return num;
-	  return (256+num) ;
+	  return -1*num;
 	  
 	  
   }
