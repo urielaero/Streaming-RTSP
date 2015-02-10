@@ -197,7 +197,7 @@ public class RTPpacket{
   //--------------------------
   //print headers without the SSRC
   //--------------------------
-  public void printheaderdos()
+  public void printheader()
   {
     //TO DO: uncomment
     /*
@@ -210,22 +210,6 @@ public class RTPpacket{
       return(256+nb);
       */
   }
-  
-  public void printheader()
-	{
-		for (int i=0; i < (HEADER_SIZE); i++)
-		{
-			for (int j = 7; j>=0 ; j--)
-				if (((1<<j) & header[i] ) != 0)
-					System.out.print("1");
-				else
-					System.out.print("0");
-			System.out.print(" ");
-		}
-
-		System.out.println();
-
-	}
 
   
   private int unsigned_int(int num){
